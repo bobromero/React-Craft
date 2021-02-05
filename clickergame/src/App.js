@@ -5,7 +5,7 @@ function App() {
   return (
     
     <div className="center main-back text-white large-bold">
-      <h1 className="background-box">React Craft</h1>
+      <h1 className="background-box">REACT CRAFT</h1>
       <div className="background-box">
         <GameSpace/>
       </div>

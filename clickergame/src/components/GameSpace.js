@@ -1,5 +1,4 @@
 import React, {useState, useEffect} from 'react';
-import ButtonClick from './ButtonClick';
 import Rock from './Rock';
 import Pickaxe from './Pickaxe';
 import brokenPick from '../data/photos/Picks/broken.png';
@@ -86,7 +85,7 @@ const GameSpace = () => {
     const [mined, setMined] = useState(-1);
     //mined is total blocks mined
     //!everything between this is for the counters 1/2
-    const [currentStone, setcurrentStone] = useState(-1);
+    const [currentStone, setcurrentStone] = useState(499);
     const [currentDiamond, setcurrentDiamond] = useState(0);
     const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
@@ -196,7 +195,7 @@ const GameSpace = () => {
         
         if(currentStone >= upgradeCost && currentPickLevel < pickArray.length){
             setcurrentStone(currentStone - upgradeCost)
-            setUpgradeCost(upgradeCost * 3 + 500)
+            setUpgradeCost(upgradeCost * 5 + 500)
             if(currentPickLevel === pickArray.length-1){
             
                 setUpgradeCost(0)
@@ -233,11 +232,7 @@ const GameSpace = () => {
             alert('you win');
         }
     }
-
-
-
     React.useEffect(() => {
-        console.log('help')
         const timer = window.setInterval(() => {
             setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 2);
             setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
@@ -248,37 +243,43 @@ const GameSpace = () => {
         window.clearInterval(timer);
         };
     });
-    
-
-
-
-
     return(
         <div id='gameSpace' className="center">
             <h1>Total blocks Mined: {mined}</h1>
-            <div id="resource-list-outer">
-                <ul className="resource-list">
-                    <li>{currentStone}<img height="25px" width='25px' src={StoneOre}></img></li>
-                    <li>{currentIron}<img height="25px" width='25px' src={IronOre}></img><button onClick={IronSmelt}>Smelt Iron</button></li>
-                    <li>{currentIronMelted}<img height="25px" width='25px' src={Iron}></img></li>
-                    <li>{currentGold}<img height="25px" width='25px' src={GoldOre}></img><button onClick={GoldSmelt}>Smelt Gold</button></li>
-                    <li>{currentGoldMelted}<img height="25px" width='25px' src={Gold}></img></li>
-                    <li>{currentDiamond}<img height="25px" width='25px' src={Diamond}></img></li>
-                    <li>{currentEmerald}<img height="25px" width='25px' src={Emerald}></img></li>
-                    <li>{currentCoal}<img height="25px" width='25px' src={Coal}></img></li>
-                    
-                    
-                </ul>
+            <div className="top-box">
+                <div className="center padding">
+                    <Rock 
+                        imgRock = {currentRock.img}
+                    />
+                    <h1>{health}</h1>
+                    <button className="Mine" onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
+                    <div className="padding">
+                        <Pickaxe 
+                        imgPickaxe = {currentPick.img}
+                        />
+                    </div>
+                </div>
+                <div className="padding">
+                    <div id="resource-list-outer">
+                        <ul className="resource-list">
+                            <li><img src={StoneOre}></img>{currentStone} </li>
+                            <li><img src={IronOre}></img>{currentIron} </li>
+                            <li><img src={Iron}></img>{currentIronMelted} </li>
+                            <li><img src={GoldOre}></img>{currentGold} </li>
+                            <li><img src={Gold}></img>{currentGoldMelted} </li>
+                            <li><img src={Diamond}></img>{currentDiamond} </li>
+                            <li><img src={Emerald}></img>{currentEmerald} </li>
+                            <li><img src={Coal}></img>{currentCoal} </li>
+                        </ul>
+                        <ul className="resource-list-smelt">
+                            <li><button onClick={IronSmelt}>Smelt Iron</button></li>
+                            <li><button onClick={GoldSmelt}>Smelt Gold</button></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
+            
 
-            <Rock 
-                imgRock = {currentRock.img}
-            />
-            <h1>{health}</h1>
-            <button  onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
-            <Pickaxe 
-            imgPickaxe = {currentPick.img}
-            />
             <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Stone</button>
             <div className="center">
                 <h1>Shops</h1>
@@ -299,7 +300,7 @@ const GameSpace = () => {
                     <p>Each shop rewards 2 emeralds each second you don't click</p>
                 </div>
             </div>
-            <div>
+            <div className="shop win">
                 <img src={Villager} height="150px" width="100px"></img>
                 <div></div>
                 <button onClick={handleClickWin}>Win the Game: 1000 Emeralds</button>

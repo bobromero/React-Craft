@@ -11,20 +11,17 @@
 .center > h1{
   text-align: center;
 }
-.resource-list{
-  list-style-type: none;
-  padding: 10vh;
-}
+
 .text-white{
   color: white;
-  
+  text-shadow: 2px 2px 2px black;
 }
 .large-bold{
   font-size: large;
   font-weight: bold;
 }
 h1.background-box{
-  background-color: rgb(17, 0, 255);
+  background-color: rgba(17, 0, 255, 0.883);
   padding:20px;
 }
 .background-box{
@@ -38,6 +35,13 @@ h1.background-box{
   width: 80%;
   height: 120%;
   margin: auto;
+  background-color: rgb(174, 229, 255);
+}
+#gameSpace > button:hover{
+  background-color:rgba(174, 229, 255, 0.657);
+}
+#gameSpace > button:focus{
+  outline:0;
 }
 .shop{
   display:grid;
@@ -46,5 +50,89 @@ h1.background-box{
 .shop button{
   font-size:large;
   border-radius: 25px;
+  background-color: rgb(174, 229, 255);
+}
+.shop button:hover{
+  background-color:rgba(174, 229, 255, 0.657);
+}
+.shop button:focus{
+  outline:0;
+}
+#resource-list-outer{
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: center;
+}
+.resource-list{
+  list-style-type: none;
+  padding: 3vh;
+}
+.resource-list-smelt{
+  display:grid;
+  align-items: center;
+  grid-template-rows: auto auto;
+  list-style-type: none;
+  padding: 3vh;
+}
+.resource-list li{
+  width:min-content;
+  white-space: nowrap;
+}
+.resource-list-smelt li{
+  width:min-content;
+  white-space: nowrap;
+}
+.resource-list img{
+  margin-top: 10px;
+  height:25px;
+  width:25px;
+}
+.resource-list-smelt button{
+  font-size:15px;
+  font-weight:bold;
+  border-radius: 25px;
+  width: min-content;
+  height: 120%;
+  margin: auto;
+  white-space: nowrap;
+  background-color: rgb(174, 229, 255);
   
+}
+.resource-list-smelt button:hover{
+  background-color: rgba(0, 247, 255, 0.712);
+}
+.resource-list-smelt button:focus{
+  outline:0;
+}
+.resource-list li{
+  padding:5px;
+}
+.win{
+  background-color: rgba(0, 238, 255, 0.123);
+  border-radius: 25px;
+}
+.win img{
+  margin:auto;
+}
+.Mine{
+  font-size:large;
+  font-weight:bold;
+  border-radius: 25px;
+  width: 80%;
+  height: 120%;
+  margin: auto;
+  background-color: rgb(174, 229, 255);
+}
+.Mine:hover{
+  background-color: rgba(0, 247, 255, 0.712);
+}
+.Mine:focus{
+  outline:0;
+}
+.top-box{
+  display: grid;
+  grid-template-columns: auto auto;
+}
+.padding{
+  padding: 10px;
 }
