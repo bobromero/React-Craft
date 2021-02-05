@@ -104,64 +104,68 @@ const GameSpace = () => {
     const [currentPickLevel, setCurrentPickLevel] = useState(0);
     let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
     let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
-    useEffect(() => {
-        console.log(currentRock)
-        if(health < 1){
-            switch(currentRock.img){
-                case DiamondOre:
-                    setcurrentDiamond(currentDiamond + 1);
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(11);
-                    break;
-                case EmeraldOre:
-                    setcurrentEmerald(currentEmerald + 1);
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(12);
-                    break;
-                case GoldOre:
-                    setcurrentGold(currentGold + 1);
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(13);
-                    break;
-                case CoalOre:
-                    setcurrentCoal(currentCoal + 1);
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(14);
-                    break;
-                case IronOre:
-                    setcurrentIron(currentIron + 1);
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(15);
-                    break;
-                default:
-                    setcurrentStone(currentStone + 1);
-                    setMined(mined + 1);
-                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
-                    setHealth(16);
-                    break;
+
+    if(health < 1){
+        
+        function addCount(){
+            if(health < 1){
+                switch(currentRock.img){
+                    case DiamondOre:
+                        setcurrentDiamond(currentDiamond + 1);
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                    case EmeraldOre:
+                        setcurrentEmerald(currentEmerald + 1);
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                    case GoldOre:
+                        setcurrentGold(currentGold + 1);
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                    case CoalOre:
+                        setcurrentCoal(currentCoal + 1);
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                    case IronOre:
+                        setcurrentIron(currentIron + 1);
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                    default:
+                        setcurrentStone(currentStone + 1);
+                        setMined(mined + 1);
+                        setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                        break;
+                }
+                
+                
             }
+            else{
+            
+            }
+            changeRockHealth();
             
             
-        }
-        else{
-           
         }
         setCurrentDamage(currentPick.damage);
-    },)
+        addCount()
+    }
     useEffect(() => {
-        console.log('test');
-    }, [currentGoldMelted])
-    
+        
+        setHealth(currentRock.health);
+    }, [mined])
+    function changeRockHealth(){
+        setHealth(currentRock.health);
+    }
     
     
     
@@ -196,6 +200,9 @@ const GameSpace = () => {
         }
         
     }
+    console.log(currentRock.health)
+    console.log(health)
+    console.log(currentRock.img)
     
     return(
         <div>
