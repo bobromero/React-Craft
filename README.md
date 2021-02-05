@@ -1,3 +1,3 @@
 # clicker
-#Play Now
+# Play Now
 http://agreeable-club.surge.sh/
