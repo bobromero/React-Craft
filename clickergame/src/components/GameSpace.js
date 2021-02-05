@@ -77,76 +77,90 @@ const GameSpace = () => {
         health: 5,
         img: StoneOre
     }
-    //!delete health, replace with currentRock.health
-    const [health, setHealth] = useState(4);
+    const throwaway ={
+        health: 1,
+        img: StoneOre
+    }
+    const [health, setHealth] = useState(0);
     const [mined, setMined] = useState(0);
     //mined is total blocks mined
     //!everything between this is for the counters 1/2
     const [currentStone, setcurrentStone] = useState(0);
     const [currentDiamond, setcurrentDiamond] = useState(0);
-    const [currentEmerald, setcurrentEmerald] = useState(9999999999);
+    const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
     const [currentGold, setcurrentGold] = useState(0);
     const [currentIron, setcurrentIron] = useState(0);
     const [currentGoldMelted, setcurrentGoldMelted] = useState(0);
     const [currentIronMelted, setcurrentIronMelted] = useState(0);
     //!  2/2
-    const [currentRock, setCurrentRock] = useState(StoneOre);
+    //!I don't understand how to use this properly
+    const [currentRock, setCurrentRock] = useState(throwaway);
     //*current rock is rock displayed
     
     const [currentPick, setCurrentPick] = useState(brokenPickaxe);
     const [currentDamage, setCurrentDamage] = useState(2);
     const [upgradeCost, setUpgradeCost] = useState(0);
     const [currentPickLevel, setCurrentPickLevel] = useState(0);
-    let ores = [DiamondOre, EmeraldOre, GoldOre, CoalOre, IronOre, StoneOre]
+    let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
     let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
     useEffect(() => {
-        
+        console.log(currentRock)
         if(health < 1){
-            switch(currentRock){
+            switch(currentRock.img){
                 case DiamondOre:
                     setcurrentDiamond(currentDiamond + 1);
+                    setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(11);
                     break;
                 case EmeraldOre:
                     setcurrentEmerald(currentEmerald + 1);
+                    setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(12);
                     break;
                 case GoldOre:
                     setcurrentGold(currentGold + 1);
+                    setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(13);
                     break;
                 case CoalOre:
                     setcurrentCoal(currentCoal + 1);
+                    setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(14);
                     break;
                 case IronOre:
                     setcurrentIron(currentIron + 1);
+                    setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(15);
                     break;
                 default:
                     setcurrentStone(currentStone + 1);
                     setMined(mined + 1);
-                    setHealth(5);
-                    setCurrentRock(ores[Math.round(Math.random() * (5-0) + 0)]);
+                    setCurrentRock(ores[Math.round(Math.random() * 5)]);
+                    setHealth(16);
                     break;
             }
-            console.log(currentRock);
+            
             
         }
+        else{
+           
+        }
         setCurrentDamage(currentPick.damage);
-    })
-
+    },)
+    useEffect(() => {
+        console.log('test');
+    }, [currentGoldMelted])
     
     
     
@@ -156,26 +170,31 @@ const GameSpace = () => {
             setcurrentCoal(currentCoal - 1);
             setcurrentIron(currentIron - 1);
             setcurrentIronMelted(currentIronMelted + 1);
-            console.log('hello');
+            
         }
     }
     function GoldSmelt(){
-        if(currentIron > 0 && currentCoal > 0){
+        if(currentGold > 0 && currentCoal > 0){
             setcurrentCoal(currentCoal - 1);
             setcurrentGold(currentGold - 1);
             setcurrentGoldMelted(currentGoldMelted + 1);
-            console.log('hello');
         }
     }
 
     function upgradePick(){
-        if(currentEmerald >= upgradeCost){
+        
+        if(currentEmerald >= upgradeCost && currentPickLevel < pickArray.length){
+            setcurrentEmerald(currentEmerald - upgradeCost)
             setUpgradeCost(upgradeCost * 2 + 500)
+            if(currentPickLevel === pickArray.length-1){
+            
+                setUpgradeCost(0)
+            } 
             setCurrentPickLevel(currentPickLevel + 1);
             setCurrentPick(pickArray[currentPickLevel])
             // pickArray array of picks use .img and .damage for each pick
-            console.log(currentPickLevel)
         }
+        
     }
     
     return(
@@ -196,10 +215,10 @@ const GameSpace = () => {
             
 
             <Rock 
-                imgRock = {currentRock}
+                imgRock = {currentRock.img}
             />
             <h1>{health}</h1>
-            <button onClick={() => setHealth(health - currentDamage)}>MINE!</button>
+            <button onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
             <Pickaxe 
             imgPickaxe = {currentPick.img}
             />
