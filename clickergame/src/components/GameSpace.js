@@ -85,7 +85,7 @@ const GameSpace = () => {
     const [mined, setMined] = useState(-1);
     //mined is total blocks mined
     //!everything between this is for the counters 1/2
-    const [currentStone, setcurrentStone] = useState(499);
+    const [currentStone, setcurrentStone] = useState(399);
     const [currentDiamond, setcurrentDiamond] = useState(0);
     const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
