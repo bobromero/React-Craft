@@ -24,23 +24,79 @@ import Iron from '../data/photos/ingots/Iron.webp';
 
 
 const GameSpace = () => {
-    const [health, setHealth] = useState(5);
+    const woodenPickaxe = {
+        damage: 1,
+        img: WoodPick
+    }
+    const stonePickaxe = {
+        damage: 2,
+        img: StonePick
+    }
+    const ironPickaxe = {
+        damage: 4,
+        img: IronPick
+    }
+    const goldPickaxe = {
+        damage: 8,
+        img: GoldPick
+    }
+    const diamondPickaxe = {
+        damage: 16,
+        img: DiamondPick
+    }
+    const netheritePickaxe = {
+        damage: 32,
+        img: NetheritePick
+    }
+    const DiamondOreObj ={
+        health: 32,
+        img: DiamondOre
+    }
+    const EmeraldOreObj ={
+        health: 32,
+        img: EmeraldOre
+    }
+    const GoldOreObj ={
+        health: 32,
+        img: GoldOre
+    }
+    const CoalOreObj ={
+        health: 8,
+        img: CoalOre
+    }
+    const IronOreObj ={
+        health: 10,
+        img: IronOre
+    }
+    const StoneObj ={
+        health: 5,
+        img: StoneOre
+    }
+    //!delete health, replace with currentRock.health
+    const [health, setHealth] = useState(4);
     const [mined, setMined] = useState(0);
+    //mined is total blocks mined
+    //everything between this is for the counters 1/2
     const [currentStone, setcurrentStone] = useState(0);
     const [currentDiamond, setcurrentDiamond] = useState(0);
     const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
     const [currentGold, setcurrentGold] = useState(0);
     const [currentIron, setcurrentIron] = useState(0);
-    const [currentRock, setCurrentRock] = useState(StoneOre);
     const [currentGoldMelted, setcurrentGoldMelted] = useState(0);
     const [currentIronMelted, setcurrentIronMelted] = useState(0);
+    //  2/2
+    const [currentRock, setCurrentRock] = useState(StoneOre);
+    //*current rock is rock displayed
+    
+    const [currentPick, setCurrentPick] = useState(woodenPickaxe);
+    const [currentDamage, setCurrentDamage] = useState(2);
+    const [upgradeCost, setUpgradeCost] = useState();
     let ores = [DiamondOre, EmeraldOre, GoldOre, CoalOre, IronOre, StoneOre]
-    let currentPick = '';
-    let pickType = 'diamond';
+    let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
     useEffect(() => {
         
-        if(health === 0){
+        if(health < 1){
             switch(currentRock){
                 case DiamondOre:
                     setcurrentDiamond(currentDiamond + 1);
@@ -82,29 +138,35 @@ const GameSpace = () => {
             console.log(currentRock);
             
         }
+        setCurrentDamage(currentPick.damage);
     })
 
     
     
-    switch(pickType){
-        case 'stone':
-            currentPick = StonePick;
-            break;
-        case 'iron':
-            currentPick = IronPick;
-            break;
-        case 'gold':
-            currentPick = GoldPick;
-            break;
-        case 'diamond':
-            currentPick = DiamondPick;
-            break;
-        case 'netherite':
-            currentPick = NetheritePick;
-            break;
-        default:
-            currentPick = WoodPick;
-
+    
+    
+    function IronSmelt(){
+        if(currentIron > 0 && currentCoal > 0){
+            setcurrentCoal(currentCoal - 1);
+            setcurrentIron(currentIron - 1);
+            setcurrentIronMelted(currentIronMelted + 1);
+            console.log('hello');
+        }
+    }
+    function GoldSmelt(){
+        if(currentIron > 0 && currentCoal > 0){
+            setcurrentCoal(currentCoal - 1);
+            setcurrentGold(currentGold - 1);
+            setcurrentGoldMelted(currentGoldMelted + 1);
+            console.log('hello');
+        }
+    }
+    function upgradePick(){
+        if(true){
+            setCurrentPick(pickArray[3])
+            // pickArray array of picks use .img and .damage for each pick
+            console.log(StonePick)
+        }
     }
     
     return(
@@ -112,23 +174,28 @@ const GameSpace = () => {
             <h1>{mined}</h1>
             <ul>
                 <li>{currentStone}<img height="25px" width='25px' src={StoneOre}></img></li>
+                <li>{currentIron}<img height="25px" width='25px' src={IronOre}></img><button onClick={IronSmelt}>Smelt Iron</button></li>
+                <li>{currentIronMelted}<img height="25px" width='25px' src={Iron}></img></li>
+                <li>{currentGold}<img height="25px" width='25px' src={GoldOre}></img><button onClick={GoldSmelt}>Smelt Gold</button></li>
+                <li>{currentGoldMelted}<img height="25px" width='25px' src={Gold}></img></li>
                 <li>{currentDiamond}<img height="25px" width='25px' src={Diamond}></img></li>
                 <li>{currentEmerald}<img height="25px" width='25px' src={Emerald}></img></li>
                 <li>{currentCoal}<img height="25px" width='25px' src={Coal}></img></li>
-                <li>{currentGold}<img height="25px" width='25px' src={GoldOre}></img></li>
-                <li>{currentGoldMelted}<img height="25px" width='25px' src={Gold}></img></li>
-                <li>{currentIron}<img height="25px" width='25px' src={IronOre}></img></li>
-                <li>{currentIronMelted}<img height="25px" width='25px' src={Iron}></img></li>
+                
+                
             </ul>
+            
 
             <Rock 
                 imgRock = {currentRock}
             />
             <h1>{health}</h1>
-            <button onClick={() => setHealth(health-1)}>MINE!</button>
-            <Pickaxe
-            imgPickaxe = {currentPick}
+            <button onClick={() => setHealth(health - currentDamage)}>MINE!</button>
+            <Pickaxe 
+            imgPickaxe = {currentPick.img}
             />
+            <button onClick={upgradePick}>UPGRADE PICKAXE: 500</button>
+
         </div>
     );
 }
