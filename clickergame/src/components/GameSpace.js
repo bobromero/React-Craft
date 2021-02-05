@@ -54,7 +54,7 @@ const GameSpace = () => {
         img: NetheritePick
     }
     const DiamondOreObj ={
-        health: 32,
+        health: 24,
         img: DiamondOre
     }
     const EmeraldOreObj ={
@@ -62,7 +62,7 @@ const GameSpace = () => {
         img: EmeraldOre
     }
     const GoldOreObj ={
-        health: 32,
+        health: 16,
         img: GoldOre
     }
     const CoalOreObj ={
@@ -82,10 +82,10 @@ const GameSpace = () => {
         img: StoneOre
     }
     const [health, setHealth] = useState(0);
-    const [mined, setMined] = useState(0);
+    const [mined, setMined] = useState(-1);
     //mined is total blocks mined
     //!everything between this is for the counters 1/2
-    const [currentStone, setcurrentStone] = useState(0);
+    const [currentStone, setcurrentStone] = useState(-1);
     const [currentDiamond, setcurrentDiamond] = useState(0);
     const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
@@ -100,10 +100,20 @@ const GameSpace = () => {
     
     const [currentPick, setCurrentPick] = useState(brokenPickaxe);
     const [currentDamage, setCurrentDamage] = useState(2);
-    const [upgradeCost, setUpgradeCost] = useState(0);
     const [currentPickLevel, setCurrentPickLevel] = useState(0);
+    const [numOfCurrentIronShops, setNumOfCurrentIronShops] = useState(0);
+    const [numOfCurrentGoldShops, setNumOfGoldShops] = useState(0);
+    const [numOfCurrentDiamondShops, setNumOfCurrentDiamondShops] = useState(0);
+    //upgrade prices
+    const [upgradeCost, setUpgradeCost] = useState(0);
+    const [ironShopCost, setIronShopCost] = useState(50);
+    const [goldShopCost, setGoldShopCost] = useState(250);
+    const [diamondShopCost, setDiamondShopCost] = useState(500);
     let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
     let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
+
+
+    
 
     if(health < 1){
         
@@ -166,9 +176,6 @@ const GameSpace = () => {
     function changeRockHealth(){
         setHealth(currentRock.health);
     }
-    
-    
-    
     function IronSmelt(){
         if(currentIron > 0 && currentCoal > 0){
             setcurrentCoal(currentCoal - 1);
@@ -184,12 +191,11 @@ const GameSpace = () => {
             setcurrentGoldMelted(currentGoldMelted + 1);
         }
     }
-
     function upgradePick(){
         
         if(currentEmerald >= upgradeCost && currentPickLevel < pickArray.length){
             setcurrentEmerald(currentEmerald - upgradeCost)
-            setUpgradeCost(upgradeCost * 2 + 500)
+            setUpgradeCost(upgradeCost * 3 + 5000)
             if(currentPickLevel === pickArray.length-1){
             
                 setUpgradeCost(0)
@@ -200,26 +206,71 @@ const GameSpace = () => {
         }
         
     }
-    console.log(currentRock.health)
-    console.log(health)
-    console.log(currentRock.img)
+
+    // function updateShops(){
+    //     setCurrentDiamondShops(diamondShops)
+    // }
+
+    // let diamondShops = [];
+        
+    function handleClickIron() {
+        if(currentIronMelted >= ironShopCost){
+            setNumOfCurrentIronShops(numOfCurrentIronShops + 1)
+            setcurrentIronMelted(currentIronMelted - ironShopCost);
+            setIronShopCost(ironShopCost * 2);
+        }
+    }
+    function handleClickGold() {
+        if(currentGoldMelted >= goldShopCost){
+            setNumOfGoldShops(numOfCurrentGoldShops + 1)
+            setcurrentGoldMelted(currentGoldMelted - goldShopCost);
+            setGoldShopCost(goldShopCost * 2);
+        }
+    }
+    function handleClickDiamond() {
+        if(currentDiamond >= diamondShopCost){
+            setNumOfCurrentDiamondShops(numOfCurrentDiamondShops + 1)
+            setcurrentDiamond(currentDiamond - diamondShopCost);
+            setDiamondShopCost(diamondShopCost * 2);
+        }
+    }
+
+
+
+    React.useEffect(() => {
+        console.log('help')
+        const timer = window.setInterval(() => {
+            setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 2);
+            setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+            setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+
+        }, 500);
+        return () => {
+        window.clearInterval(timer);
+        };
+    });
     
+
+
+
+
     return(
         <div>
-            <h1>{mined}</h1>
-            <ul>
-                <li>{currentStone}<img height="25px" width='25px' src={StoneOre}></img></li>
-                <li>{currentIron}<img height="25px" width='25px' src={IronOre}></img><button onClick={IronSmelt}>Smelt Iron</button></li>
-                <li>{currentIronMelted}<img height="25px" width='25px' src={Iron}></img></li>
-                <li>{currentGold}<img height="25px" width='25px' src={GoldOre}></img><button onClick={GoldSmelt}>Smelt Gold</button></li>
-                <li>{currentGoldMelted}<img height="25px" width='25px' src={Gold}></img></li>
-                <li>{currentDiamond}<img height="25px" width='25px' src={Diamond}></img></li>
-                <li>{currentEmerald}<img height="25px" width='25px' src={Emerald}></img></li>
-                <li>{currentCoal}<img height="25px" width='25px' src={Coal}></img></li>
-                
-                
-            </ul>
-            
+            <h1>Total blocks Mined: {mined}</h1>
+            <div id="resource-list-outer">
+                <ul className="resource-list">
+                    <li>{currentStone}<img height="25px" width='25px' src={StoneOre}></img></li>
+                    <li>{currentIron}<img height="25px" width='25px' src={IronOre}></img><button onClick={IronSmelt}>Smelt Iron</button></li>
+                    <li>{currentIronMelted}<img height="25px" width='25px' src={Iron}></img></li>
+                    <li>{currentGold}<img height="25px" width='25px' src={GoldOre}></img><button onClick={GoldSmelt}>Smelt Gold</button></li>
+                    <li>{currentGoldMelted}<img height="25px" width='25px' src={Gold}></img></li>
+                    <li>{currentDiamond}<img height="25px" width='25px' src={Diamond}></img></li>
+                    <li>{currentEmerald}<img height="25px" width='25px' src={Emerald}></img></li>
+                    <li>{currentCoal}<img height="25px" width='25px' src={Coal}></img></li>
+                    
+                    
+                </ul>
+            </div>
 
             <Rock 
                 imgRock = {currentRock.img}
@@ -229,8 +280,26 @@ const GameSpace = () => {
             <Pickaxe 
             imgPickaxe = {currentPick.img}
             />
-            <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Emeralds</button>
-
+            <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Stone</button>
+            <h1>Shops</h1>
+            <div>
+                <h3>Iron Shops: {numOfCurrentIronShops}</h3>
+                <button onClick={handleClickIron}>Buy Diamond shop: {ironShopCost} Iron</button>
+                <p>Each shop rewards 2 Coal each second you don't click</p>
+            </div>
+            <div>
+                <h3>Gold Shops: {numOfCurrentGoldShops}</h3>
+                <button onClick={handleClickGold}>Buy Diamond shop: {goldShopCost} Gold</button>
+                <p>Each shop rewards 50 Smooth Stone each second you don't click</p>
+            </div>
+            <div>
+                <h3>Diamond Shops: {numOfCurrentDiamondShops}</h3>
+                <button onClick={handleClickDiamond}>Buy Diamond shop: {diamondShopCost} Diamonds</button>
+                <p>Each shop rewards 2 emeralds each second you don't click</p>
+            </div>
+            
+            
+            
         </div>
     );
 }
