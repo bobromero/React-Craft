@@ -1,4 +1,50 @@
+.center{
+  display: grid;
+  justify-content: center;
+}
+.main-back{
+  background: url(data/photos/171177.jpg) no-repeat center center fixed;
+  background-size: cover;
+  height: 100%;
+  overflow: hidden;
+}
+.center > h1{
+  text-align: center;
+}
 .resource-list{
   list-style-type: none;
   padding: 10vh;
+}
+.text-white{
+  color: white;
+  
+}
+.large-bold{
+  font-size: large;
+  font-weight: bold;
+}
+h1.background-box{
+  background-color: rgb(17, 0, 255);
+  padding:20px;
+}
+.background-box{
+  background-color: rgba(17, 0, 255, 0.452);
+  border-radius: 10px;
+  padding:15px;
+}
+#gameSpace > button{
+  font-size:large;
+  border-radius: 25px;
+  width: 80%;
+  height: 120%;
+  margin: auto;
+}
+.shop{
+  display:grid;
+  width:500px;
+}
+.shop button{
+  font-size:large;
+  border-radius: 25px;
+  
 }

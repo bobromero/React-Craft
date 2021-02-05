@@ -20,6 +20,7 @@ import Emerald from '../data/photos/ingots/Emerald.webp';
 import Coal from '../data/photos/ingots/Coal.webp';
 import Gold from '../data/photos/ingots/Gold.webp';
 import Iron from '../data/photos/ingots/Iron.webp';
+import Villager from '../data/photos/villager.png';
 
 
 
@@ -106,9 +107,9 @@ const GameSpace = () => {
     const [numOfCurrentDiamondShops, setNumOfCurrentDiamondShops] = useState(0);
     //upgrade prices
     const [upgradeCost, setUpgradeCost] = useState(0);
-    const [ironShopCost, setIronShopCost] = useState(50);
-    const [goldShopCost, setGoldShopCost] = useState(250);
-    const [diamondShopCost, setDiamondShopCost] = useState(500);
+    const [ironShopCost, setIronShopCost] = useState(10);
+    const [goldShopCost, setGoldShopCost] = useState(25);
+    const [diamondShopCost, setDiamondShopCost] = useState(50);
     let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
     let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
 
@@ -193,9 +194,9 @@ const GameSpace = () => {
     }
     function upgradePick(){
         
-        if(currentEmerald >= upgradeCost && currentPickLevel < pickArray.length){
-            setcurrentEmerald(currentEmerald - upgradeCost)
-            setUpgradeCost(upgradeCost * 3 + 5000)
+        if(currentStone >= upgradeCost && currentPickLevel < pickArray.length){
+            setcurrentStone(currentStone - upgradeCost)
+            setUpgradeCost(upgradeCost * 3 + 500)
             if(currentPickLevel === pickArray.length-1){
             
                 setUpgradeCost(0)
@@ -206,13 +207,6 @@ const GameSpace = () => {
         }
         
     }
-
-    // function updateShops(){
-    //     setCurrentDiamondShops(diamondShops)
-    // }
-
-    // let diamondShops = [];
-        
     function handleClickIron() {
         if(currentIronMelted >= ironShopCost){
             setNumOfCurrentIronShops(numOfCurrentIronShops + 1)
@@ -232,6 +226,11 @@ const GameSpace = () => {
             setNumOfCurrentDiamondShops(numOfCurrentDiamondShops + 1)
             setcurrentDiamond(currentDiamond - diamondShopCost);
             setDiamondShopCost(diamondShopCost * 2);
+        }
+    }
+    function handleClickWin() {
+        if(currentEmerald >= 1000){
+            alert('you win');
         }
     }
 
@@ -255,7 +254,7 @@ const GameSpace = () => {
 
 
     return(
-        <div>
+        <div id='gameSpace' className="center">
             <h1>Total blocks Mined: {mined}</h1>
             <div id="resource-list-outer">
                 <ul className="resource-list">
@@ -276,26 +275,34 @@ const GameSpace = () => {
                 imgRock = {currentRock.img}
             />
             <h1>{health}</h1>
-            <button onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
+            <button  onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
             <Pickaxe 
             imgPickaxe = {currentPick.img}
             />
             <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Stone</button>
-            <h1>Shops</h1>
-            <div>
-                <h3>Iron Shops: {numOfCurrentIronShops}</h3>
-                <button onClick={handleClickIron}>Buy Diamond shop: {ironShopCost} Iron</button>
-                <p>Each shop rewards 2 Coal each second you don't click</p>
+            <div className="center">
+                <h1>Shops</h1>
+                <div className="shop center">
+                    <h3>Iron Shops: {numOfCurrentIronShops}</h3>
+                    <button onClick={handleClickIron}>Buy Iron shop: {ironShopCost} Iron</button>
+                    <p>Each shop rewards 2 Coal each second you don't click</p>
+                </div>
+
+                <div className="shop center">
+                    <h3>Gold Shops: {numOfCurrentGoldShops}</h3>
+                    <button onClick={handleClickGold}>Buy Gold shop: {goldShopCost} Gold</button>
+                    <p>Each shop rewards 50 Stone each second you don't click</p>
+                </div>
+                <div className="shop center">
+                    <h3>Diamond Shops: {numOfCurrentDiamondShops}</h3>
+                    <button onClick={handleClickDiamond}>Buy Diamond shop: {diamondShopCost} Diamonds</button>
+                    <p>Each shop rewards 2 emeralds each second you don't click</p>
+                </div>
             </div>
             <div>
-                <h3>Gold Shops: {numOfCurrentGoldShops}</h3>
-                <button onClick={handleClickGold}>Buy Diamond shop: {goldShopCost} Gold</button>
-                <p>Each shop rewards 50 Smooth Stone each second you don't click</p>
-            </div>
-            <div>
-                <h3>Diamond Shops: {numOfCurrentDiamondShops}</h3>
-                <button onClick={handleClickDiamond}>Buy Diamond shop: {diamondShopCost} Diamonds</button>
-                <p>Each shop rewards 2 emeralds each second you don't click</p>
+                <img src={Villager} height="150px" width="100px"></img>
+                <div></div>
+                <button onClick={handleClickWin}>Win the Game: 1000 Emeralds</button>
             </div>
             
             

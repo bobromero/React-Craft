@@ -4,10 +4,11 @@ import GameSpace from './components/GameSpace';
 function App() {
   return (
     
-    <div>
-      <h1>React Craft</h1>
-      <GameSpace/>
-      
+    <div className="center main-back text-white large-bold">
+      <h1 className="background-box">React Craft</h1>
+      <div className="background-box">
+        <GameSpace/>
+      </div>
     </div>
   );
 }
