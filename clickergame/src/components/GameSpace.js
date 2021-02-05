@@ -121,37 +121,55 @@ const GameSpace = () => {
             if(health < 1){
                 switch(currentRock.img){
                     case DiamondOre:
-                        setcurrentDiamond(currentDiamond + 1);
-                        setcurrentStone(currentStone + 1);
+                        setcurrentDiamond(currentDiamond + Math.round(Math.random() * 4 + 2));
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case EmeraldOre:
-                        setcurrentEmerald(currentEmerald + 1);
-                        setcurrentStone(currentStone + 1);
+                        setcurrentEmerald(currentEmerald + Math.round(Math.random() * 4 + 2));
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case GoldOre:
-                        setcurrentGold(currentGold + 1);
-                        setcurrentStone(currentStone + 1);
+                        setcurrentGold(currentGold + Math.round(Math.random() * 4 + 2));
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case CoalOre:
-                        setcurrentCoal(currentCoal + 1);
-                        setcurrentStone(currentStone + 1);
+                        setcurrentCoal(currentCoal + Math.round(Math.random() * 4 + 2));
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case IronOre:
-                        setcurrentIron(currentIron + 1);
-                        setcurrentStone(currentStone + 1);
+                        setcurrentIron(currentIron + Math.round(Math.random() * 4 + 2));
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     default:
-                        setcurrentStone(currentStone + 1);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
+                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
@@ -184,6 +202,14 @@ const GameSpace = () => {
             
         }
     }
+    function IronAllSmelt(){
+        if(currentIron > 0 && currentCoal > 0 && currentCoal-currentIron > 0){
+            setcurrentCoal(currentCoal - currentIron);
+            setcurrentIron(currentIron - currentIron);
+            setcurrentIronMelted(currentIronMelted + currentIron);
+            
+        }
+    }
     function GoldSmelt(){
         if(currentGold > 0 && currentCoal > 0){
             setcurrentCoal(currentCoal - 1);
@@ -191,11 +217,18 @@ const GameSpace = () => {
             setcurrentGoldMelted(currentGoldMelted + 1);
         }
     }
+    function GoldAllSmelt(){
+        if(currentGold > 0 && currentCoal > 0 && currentCoal-currentGold > 0){
+            setcurrentCoal(currentCoal - currentGold);
+            setcurrentGold(currentGold - currentGold);
+            setcurrentGoldMelted(currentGoldMelted + currentGold);
+        }
+    }
     function upgradePick(){
         
         if(currentStone >= upgradeCost && currentPickLevel < pickArray.length){
             setcurrentStone(currentStone - upgradeCost)
-            setUpgradeCost(upgradeCost * 5 + 500)
+            setUpgradeCost(upgradeCost * 5 + 750)
             if(currentPickLevel === pickArray.length-1){
             
                 setUpgradeCost(0)
@@ -210,25 +243,25 @@ const GameSpace = () => {
         if(currentIronMelted >= ironShopCost){
             setNumOfCurrentIronShops(numOfCurrentIronShops + 1)
             setcurrentIronMelted(currentIronMelted - ironShopCost);
-            setIronShopCost(ironShopCost * 2);
+            setIronShopCost(ironShopCost + 30);
         }
     }
     function handleClickGold() {
         if(currentGoldMelted >= goldShopCost){
             setNumOfGoldShops(numOfCurrentGoldShops + 1)
             setcurrentGoldMelted(currentGoldMelted - goldShopCost);
-            setGoldShopCost(goldShopCost * 2);
+            setGoldShopCost(goldShopCost + 50);
         }
     }
     function handleClickDiamond() {
         if(currentDiamond >= diamondShopCost){
             setNumOfCurrentDiamondShops(numOfCurrentDiamondShops + 1)
             setcurrentDiamond(currentDiamond - diamondShopCost);
-            setDiamondShopCost(diamondShopCost * 2);
+            setDiamondShopCost(diamondShopCost + 100);
         }
     }
     function handleClickWin() {
-        if(currentEmerald >= 1000){
+        if(currentEmerald >= 50000){
             alert('you win');
         }
     }
@@ -273,7 +306,9 @@ const GameSpace = () => {
                         </ul>
                         <ul className="resource-list-smelt">
                             <li><button onClick={IronSmelt}>Smelt Iron</button></li>
+                            <li><button onClick={IronAllSmelt}>Smelt All Iron</button></li>
                             <li><button onClick={GoldSmelt}>Smelt Gold</button></li>
+                            <li><button onClick={GoldAllSmelt}>Smelt All Gold</button></li>
                         </ul>
                     </div>
                 </div>
@@ -303,7 +338,7 @@ const GameSpace = () => {
             <div className="shop win">
                 <img src={Villager} height="150px" width="100px"></img>
                 <div></div>
-                <button onClick={handleClickWin}>Win the Game: 1000 Emeralds</button>
+                <button onClick={handleClickWin}>Win the Game: 50000 Emeralds</button>
             </div>
             
             
