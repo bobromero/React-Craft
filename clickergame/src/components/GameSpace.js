@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import ButtonClick from './ButtonClick';
 import Rock from './Rock';
 import Pickaxe from './Pickaxe';
+import brokenPick from '../data/photos/Picks/broken.png';
 import WoodPick from '../data/photos/Picks/Wooden_Pickaxe.png';
 import StonePick from '../data/photos/Picks/Stone_Pickaxe.webp';
 import IronPick from '../data/photos/Picks/Iron_Pickaxe.webp';
@@ -24,6 +25,10 @@ import Iron from '../data/photos/ingots/Iron.webp';
 
 
 const GameSpace = () => {
+    const brokenPickaxe = {
+        damage: 0,
+        img: brokenPick
+    }
     const woodenPickaxe = {
         damage: 1,
         img: WoodPick
@@ -76,22 +81,23 @@ const GameSpace = () => {
     const [health, setHealth] = useState(4);
     const [mined, setMined] = useState(0);
     //mined is total blocks mined
-    //everything between this is for the counters 1/2
+    //!everything between this is for the counters 1/2
     const [currentStone, setcurrentStone] = useState(0);
     const [currentDiamond, setcurrentDiamond] = useState(0);
-    const [currentEmerald, setcurrentEmerald] = useState(0);
+    const [currentEmerald, setcurrentEmerald] = useState(9999999999);
     const [currentCoal, setcurrentCoal] = useState(0);
     const [currentGold, setcurrentGold] = useState(0);
     const [currentIron, setcurrentIron] = useState(0);
     const [currentGoldMelted, setcurrentGoldMelted] = useState(0);
     const [currentIronMelted, setcurrentIronMelted] = useState(0);
-    //  2/2
+    //!  2/2
     const [currentRock, setCurrentRock] = useState(StoneOre);
     //*current rock is rock displayed
     
-    const [currentPick, setCurrentPick] = useState(woodenPickaxe);
+    const [currentPick, setCurrentPick] = useState(brokenPickaxe);
     const [currentDamage, setCurrentDamage] = useState(2);
-    const [upgradeCost, setUpgradeCost] = useState();
+    const [upgradeCost, setUpgradeCost] = useState(0);
+    const [currentPickLevel, setCurrentPickLevel] = useState(0);
     let ores = [DiamondOre, EmeraldOre, GoldOre, CoalOre, IronOre, StoneOre]
     let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
     useEffect(() => {
@@ -161,11 +167,14 @@ const GameSpace = () => {
             console.log('hello');
         }
     }
+
     function upgradePick(){
-        if(true){
-            setCurrentPick(pickArray[3])
+        if(currentEmerald >= upgradeCost){
+            setUpgradeCost(upgradeCost * 2 + 500)
+            setCurrentPickLevel(currentPickLevel + 1);
+            setCurrentPick(pickArray[currentPickLevel])
             // pickArray array of picks use .img and .damage for each pick
-            console.log(StonePick)
+            console.log(currentPickLevel)
         }
     }
     
@@ -194,7 +203,7 @@ const GameSpace = () => {
             <Pickaxe 
             imgPickaxe = {currentPick.img}
             />
-            <button onClick={upgradePick}>UPGRADE PICKAXE: 500</button>
+            <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Emeralds</button>
 
         </div>
     );
