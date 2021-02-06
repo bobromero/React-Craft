@@ -321,18 +321,18 @@ const GameSpace = () => {
                 <div className="shop center">
                     <h3>Iron Shops: {numOfCurrentIronShops}</h3>
                     <button onClick={handleClickIron}>Buy Iron shop: {ironShopCost} Iron</button>
-                    <p>Each shop rewards 2 Coal each second you don't click</p>
+                    <p>Each shop rewards 2 Coal per click and second</p>
                 </div>
 
                 <div className="shop center">
                     <h3>Gold Shops: {numOfCurrentGoldShops}</h3>
                     <button onClick={handleClickGold}>Buy Gold shop: {goldShopCost} Gold</button>
-                    <p>Each shop rewards 50 Stone each second you don't click</p>
+                    <p>Each shop rewards 50 Stone per click and second</p>
                 </div>
                 <div className="shop center">
                     <h3>Diamond Shops: {numOfCurrentDiamondShops}</h3>
                     <button onClick={handleClickDiamond}>Buy Diamond shop: {diamondShopCost} Diamonds</button>
-                    <p>Each shop rewards 2 emeralds each second you don't click</p>
+                    <p>Each shop rewards 2 emeralds per click and second</p>
                 </div>
             </div>
             <div className="shop win">
