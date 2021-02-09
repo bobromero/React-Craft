@@ -137,6 +137,30 @@ h1.background-box{
 .padding{
   padding: 10px;
 }
+#myDIV{
+  display: none;
+}
 #myDIV:hover{
   cursor: pointer;
+ 
+}
+.upgrade-image{
+  background: rgb(255, 115, 0);
+  background: rgba(255, 115, 0, 0.794);
+  border: dashed 4px rgb(0, 204, 255);
+  height: 50px;
+}
+.upgrade-image:hover{
+  background: rgb(255, 115, 0);
+  cursor: pointer;
+}
+.type{
+  height:58px;
+  width: min-content;
+  border: solid 4px rgb(190, 0, 0);
+}
+.upgrades{
+  display:grid;
+  justify-content: center;
+  grid-template-columns: auto auto auto auto;
 }

@@ -21,6 +21,8 @@ import Coal from '../data/photos/ingots/Coal.webp';
 import Gold from '../data/photos/ingots/Gold.webp';
 import Iron from '../data/photos/ingots/Iron.webp';
 import Villager from '../data/photos/villager.png';
+import upgradedPick from '../data/photos/Picks/Enchanted_Diamond_Pickaxe.gif';
+import PickUpgrade from './PickUpgrade';
 
 
 
@@ -55,6 +57,10 @@ const GameSpace = () => {
         damage: 32,
         img: NetheritePick
     }
+    const upgradedPickaxe = {
+        damage: 32,
+        img: upgradedPick
+    }
     const DiamondOreObj ={
         health: 24,
         img: DiamondOre
@@ -83,11 +89,13 @@ const GameSpace = () => {
         health: 1,
         img: StoneOre
     }
+    
+    
     const [health, setHealth] = useState(0);
     const [mined, setMined] = useState(-1);
     //mined is total blocks mined
     //!everything between this is for the counters 1/2
-    const [currentStone, setcurrentStone] = useState(399);
+    const [currentStone, setcurrentStone] = useState(398);
     const [currentDiamond, setcurrentDiamond] = useState(0);
     const [currentEmerald, setcurrentEmerald] = useState(0);
     const [currentCoal, setcurrentCoal] = useState(0);
@@ -112,8 +120,10 @@ const GameSpace = () => {
     const [clickShopCost, setClickShopCost] = useState(50);
     const [goldShopCost, setGoldShopCost] = useState(25);
     const [diamondShopCost, setDiamondShopCost] = useState(50);
+    const [GaBoost, setGaBoost] =useState(1);
+    const [upgrades, setUpgrades] = useState(-1);
     let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
-    let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe];
+    let pickArray = [woodenPickaxe, stonePickaxe, ironPickaxe, goldPickaxe, diamondPickaxe, netheritePickaxe, upgradedPickaxe];
 
 
     
@@ -124,61 +134,46 @@ const GameSpace = () => {
             if(health < 1){
                 switch(currentRock.img){
                     case DiamondOre:
-                        setcurrentDiamond(currentDiamond + Math.round(Math.random() * 4 + 2));
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 25);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentDiamond(currentDiamond + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case EmeraldOre:
-                        setcurrentEmerald(currentEmerald + Math.round(Math.random() * 4 + 2));
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentEmerald(currentEmerald + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case GoldOre:
-                        setcurrentGold(currentGold + Math.round(Math.random() * 4 + 2));
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentGold(currentGold + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case CoalOre:
-                        setcurrentCoal(currentCoal + Math.round(Math.random() * 4 + 2));
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentCoal(currentCoal + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     case IronOre:
-                        setcurrentIron(currentIron + Math.round(Math.random() * 4 + 2));
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentIron(currentIron + Math.round(Math.random() * 4 + 2) * GaBoost);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                     default:
-                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
-                        setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
-                        setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
+                        setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2) * GaBoost);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
                         break;
                 }
                 
-                
+                setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2 * GaBoost);
+                setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 25 * GaBoost);
+                setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8 * GaBoost);
             }
             
             changeRockHealth();
@@ -236,6 +231,7 @@ const GameSpace = () => {
             } 
             setCurrentPickLevel(currentPickLevel + 1);
             setCurrentPick(pickArray[currentPickLevel])
+            setUpgrades(upgrades + 1)
             // pickArray array of picks use .img and .damage for each pick
         }
         
@@ -298,10 +294,17 @@ const GameSpace = () => {
                     <button className="Mine" onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
                     <GoldenApple
                         mined={mined}
+                        setGaBoost={setGaBoost}
                     />
                     <div className="padding">
                         <Pickaxe 
+                        mined={mined}
                         imgPickaxe = {currentPick.img}
+                        setCurrentPick={setCurrentPick}
+                        GaBoost={GaBoost}
+                        pickArray={pickArray}
+                        upgradedPickaxe={upgradedPickaxe}
+                        upgrades={upgrades}
                         />
                     </div>
                 </div>
@@ -329,6 +332,17 @@ const GameSpace = () => {
             
 
             <button onClick={upgradePick}>UPGRADE PICKAXE: {upgradeCost} Stone</button>
+            {/* <div className="center">
+                <h1>Upgrades</h1>
+                <div className="upgrades">
+                     <PickUpgrade/>
+                     <PickUpgrade/>
+                     <PickUpgrade/>
+                     <PickUpgrade/>
+                </div>
+                   
+
+            </div> */}
             <div className="center">
                 <h1>Shops</h1>
                 <div className="shop center">
@@ -355,7 +369,7 @@ const GameSpace = () => {
             <div className="shop win">
                 <img src={Villager} height="150px" width="100px"></img>
                 <div></div>
-                <button onClick={handleClickWin}>Win the Game: 50000 Emeralds</button>
+                <button onClick={handleClickWin}>Win the Game: 500000 Emeralds</button>
             </div>
             
             
