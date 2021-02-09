@@ -110,6 +110,7 @@ h1.background-box{
 .win{
   background-color: rgba(0, 238, 255, 0.123);
   border-radius: 25px;
+  margin:auto;
 }
 .win img{
   margin:auto;
@@ -135,4 +136,7 @@ h1.background-box{
 }
 .padding{
   padding: 10px;
+}
+#myDIV:hover{
+  cursor: pointer;
 }

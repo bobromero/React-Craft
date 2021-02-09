@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Rock from './Rock';
 import Pickaxe from './Pickaxe';
+import GoldenApple from './GoldenApple';
 import brokenPick from '../data/photos/Picks/broken.png';
 import WoodPick from '../data/photos/Picks/Wooden_Pickaxe.png';
 import StonePick from '../data/photos/Picks/Stone_Pickaxe.webp';
@@ -20,6 +21,7 @@ import Coal from '../data/photos/ingots/Coal.webp';
 import Gold from '../data/photos/ingots/Gold.webp';
 import Iron from '../data/photos/ingots/Iron.webp';
 import Villager from '../data/photos/villager.png';
+
 
 
 
@@ -99,14 +101,15 @@ const GameSpace = () => {
     //*current rock is rock displayed
     
     const [currentPick, setCurrentPick] = useState(brokenPickaxe);
-    const [currentDamage, setCurrentDamage] = useState(2);
     const [currentPickLevel, setCurrentPickLevel] = useState(0);
     const [numOfCurrentIronShops, setNumOfCurrentIronShops] = useState(0);
+    const [numOfAutoMineShops, setNumOfAutoMineShops] = useState(0);
     const [numOfCurrentGoldShops, setNumOfGoldShops] = useState(0);
     const [numOfCurrentDiamondShops, setNumOfCurrentDiamondShops] = useState(0);
     //upgrade prices
     const [upgradeCost, setUpgradeCost] = useState(0);
     const [ironShopCost, setIronShopCost] = useState(10);
+    const [clickShopCost, setClickShopCost] = useState(50);
     const [goldShopCost, setGoldShopCost] = useState(25);
     const [diamondShopCost, setDiamondShopCost] = useState(50);
     let ores = [EmeraldOreObj, DiamondOreObj, GoldOreObj, CoalOreObj, IronOreObj, StoneObj]
@@ -124,7 +127,7 @@ const GameSpace = () => {
                         setcurrentDiamond(currentDiamond + Math.round(Math.random() * 4 + 2));
                         setcurrentStone(currentStone + Math.round(Math.random() * 4 + 2));
                         setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
-                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+                        setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 25);
                         setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 8);
                         setMined(mined + 1);
                         setCurrentRock(ores[Math.round(Math.random() * 5)]);
@@ -177,14 +180,12 @@ const GameSpace = () => {
                 
                 
             }
-            else{
             
-            }
             changeRockHealth();
             
             
         }
-        setCurrentDamage(currentPick.damage);
+        
         addCount()
     }
     useEffect(() => {
@@ -246,6 +247,13 @@ const GameSpace = () => {
             setIronShopCost(ironShopCost + 30);
         }
     }
+    function handleClickClicks() {
+        if(currentIronMelted >= clickShopCost){
+            setNumOfAutoMineShops(numOfAutoMineShops + 1)
+            setcurrentIronMelted(currentIronMelted - clickShopCost);
+            setClickShopCost(clickShopCost * 2);
+        }
+    }
     function handleClickGold() {
         if(currentGoldMelted >= goldShopCost){
             setNumOfGoldShops(numOfCurrentGoldShops + 1)
@@ -260,8 +268,9 @@ const GameSpace = () => {
             setDiamondShopCost(diamondShopCost + 100);
         }
     }
+
     function handleClickWin() {
-        if(currentEmerald >= 50000){
+        if(currentEmerald >= 500000){
             alert('you win');
         }
     }
@@ -270,6 +279,7 @@ const GameSpace = () => {
             setcurrentEmerald(prevTime => prevTime + numOfCurrentDiamondShops * 2);
             setcurrentCoal(prevTime => prevTime + numOfCurrentIronShops  * 2);
             setcurrentStone(prevTime => prevTime + numOfCurrentGoldShops * 50);
+            setHealth(health - numOfAutoMineShops)
 
         }, 500);
         return () => {
@@ -286,6 +296,9 @@ const GameSpace = () => {
                     />
                     <h1>{health}</h1>
                     <button className="Mine" onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
+                    <GoldenApple
+                        mined={mined}
+                    />
                     <div className="padding">
                         <Pickaxe 
                         imgPickaxe = {currentPick.img}
@@ -319,11 +332,15 @@ const GameSpace = () => {
             <div className="center">
                 <h1>Shops</h1>
                 <div className="shop center">
+                    <h3>Auto Clicker Shop Shops: {numOfAutoMineShops}</h3>
+                    <button onClick={handleClickClicks}>Buy Clicker: {clickShopCost} Iron</button>
+                    <p>Each shop rewards 1 click per second</p>
+                </div>
+                <div className="shop center">
                     <h3>Iron Shops: {numOfCurrentIronShops}</h3>
                     <button onClick={handleClickIron}>Buy Iron shop: {ironShopCost} Iron</button>
                     <p>Each shop rewards 2 Coal per click and second</p>
                 </div>
-
                 <div className="shop center">
                     <h3>Gold Shops: {numOfCurrentGoldShops}</h3>
                     <button onClick={handleClickGold}>Buy Gold shop: {goldShopCost} Gold</button>
