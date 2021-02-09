@@ -282,6 +282,9 @@ const GameSpace = () => {
         window.clearInterval(timer);
         };
     });
+    function mineBlock(){
+        setHealth(health - currentPick.damage)
+    }
     return(
         <div id='gameSpace' className="center">
             <h1>Total blocks Mined: {mined}</h1>
@@ -291,7 +294,7 @@ const GameSpace = () => {
                         imgRock = {currentRock.img}
                     />
                     <h1>{health}</h1>
-                    <button className="Mine" onClick={() => setHealth(health - currentPick.damage)}>MINE!</button>
+                    <button className="Mine" onClick={mineBlock}>MINE!</button>
                     <GoldenApple
                         mined={mined}
                         setGaBoost={setGaBoost}

@@ -116,13 +116,17 @@ h1.background-box{
   margin:auto;
 }
 .Mine{
+  display: flex;
+  justify-content: center;
   font-size:large;
   font-weight:bold;
+  align-items: center;
   border-radius: 25px;
   width: 80%;
   height: 120%;
   margin: auto;
   background-color: rgb(174, 229, 255);
+
 }
 .Mine:hover{
   background-color: rgba(0, 247, 255, 0.712);
